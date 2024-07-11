@@ -1,32 +1,62 @@
 <?php
-require_once __DIR__.'\controleur\GestionsFilms.php'; 
+require_once __DIR__ . '/controller/FilmController.php';
 
-$gestionFilms = new GestionFilms(__DIR__.'\data\xml\donnéesFilms.xml');
-
-// Exemple de gestion basique des actions via GET
+// Créer une instance de FilmController
+$filmController = new FilmController();
+// Rediriger en fonction de l'action
 if (isset($_GET['action'])) {
-    $action = $_GET['action'];
-
-    switch ($action) {
-        case 'afficherFilm':
-            $gestionFilms->afficherTousLesFilms();
+    switch ($_GET['action']) {
+        case 'add':
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                $filmController->addFilm( 
+                    $_POST['titre'],
+                    $_POST['duree'],
+                    $_POST['genre'],
+                    $_POST['realisateur'],
+                    $_POST['acteurs'],
+                    $_POST['annee'],
+                    $_POST['langue'],
+                    $_POST['description'],
+                    $_POST['horaires'],
+                    $_POST['presse'],
+                    $_POST['spectateur']
+                );
+                header('Location: view/listeFilmsVueAdmin.php');
+                exit;
+            }
             break;
-        case 'ajouterFilm':
-            // Ici, vous devriez récupérer les informations du film depuis $_GET ou $_POST
-            // et appeler $gestionFilms->ajouterFilm($film);
-            break;
-        case 'mettreAJourFilm':
-            // Similaire à 'ajouter', mais pour mettre à jour un film
-            break;
-        case 'supprimerFilm':
-            // Ici, vous devriez récupérer l'ID du film à supprimer
-            // et appeler $gestionFilms->supprimerFilm($idFilm);
-            break;
-        default:
-            echo "Action non reconnue.";
-            break;
+            case 'update':
+                if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                    $updateSuccess = $filmController->updateFilm(
+                        $_POST['oldTitre'],
+                        $_POST['titre'],
+                        $_POST['duree'],
+                        $_POST['genre'],
+                        $_POST['realisateur'],
+                        $_POST['acteurs'],
+                        $_POST['annee'],
+                        $_POST['langue'],
+                        $_POST['description'],
+                        $_POST['horaires'],
+                        $_POST['presse'],
+                        $_POST['spectateur']
+                    );
+                    
+                    header('Location: view/listeFilmsVueAdmin.php');
+                    exit;
+                    
+                }
+                break;
+                case 'delete':
+                    if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_GET['action'] === 'delete') {
+                        if (isset($_POST['titre'])) {
+                            $titre = $_POST['titre'];
+                            $filmController->deleteFilm($titre);
+                            header('Location: view/listeFilmsVueAdmin.php');
+                        }
+                    }
+                break;
+        // Ajoutez d'autres actions pour update, delete, etc.
     }
-} else {
-    // Si aucune action spécifique n'est demandée, afficher tous les films par défaut
-    $gestionFilms->afficherTousLesFilms();
 }
+?>
