@@ -1,4 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<restaurants>
-    <!-- Ajoutez vos éléments de restaurant ici -->
-</restaurants>
+<restaurant>
+    <coordonnees>48.8566, 2.3522</coordonnees>
+    <nom>Le Gourmet Parisien</nom>
+    <adresse>123 Rue de la Paix, 75002 Paris, France</adresse>
+    <restaurateur>Jean Dupont</restaurateur>
+    <descriptionRestaurant>
+        <liste>Spécialités régionales</liste>
+        <paragraphe>Notre restaurant propose une cuisine française authentique.</paragraphe>
+        <important forme="gras">Cuisine traditionnelle</important>
+        <image url="http://example.com/image.jpg" position="centre"/>
+    </descriptionRestaurant>
+    <carte>
+        <plat numero="p1">
+            <indication type="entrée"/>
+            <prix valeur="12" devise="EUR"/>
+            <descriptionPlat>
+                <paragraphe>
+                    <important forme="italique">Délicieux pâté de campagne.</important>
+                </paragraphe>
+            </descriptionPlat>
+        </plat>
+        <plat numero="p2">
+            <indication type="plat"/>
+            <prix valeur="25" devise="EUR"/>
+            <descriptionPlat>
+                <paragraphe>
+                    <important forme="souligner">Côtelettes d'agneau aux herbes.</important>
+                </paragraphe>
+            </descriptionPlat>
+        </plat>
+    </carte>
+    <menu>
+        <titre>Menu Dégustation</titre>
+        <descriptionMenu>
+            <platMenu plat="p1">Entrée: Pâté de campagne</platMenu>
+            <platMenu plat="p2">Plat: Côtelettes d'agneau</platMenu>
+        </descriptionMenu>
+        <prix valeur="35" devise="EUR"/>
+    </menu>
+</restaurant>
