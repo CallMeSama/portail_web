@@ -34,6 +34,7 @@ $films = $filmController->getFilms();
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                     <li class="nav-item"><a class="nav-link" href="#">Restaurant</a></li>
                     <li class="nav-item"><a class="nav-link active" aria-current="page" href="listeFilmsVueAdmin.php">Cinéma</a></li>
+                    <li class="nav-item"><a class="nav-link" href="login.php">Déconnexion</a></li>
                 </ul>
             </div>
         </div>
