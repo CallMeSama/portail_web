@@ -39,7 +39,7 @@ if (!empty($results)) {
                 <a href="#!">';
                     if ($film->titre == "Les Brigades du Tigre") {
                         $imageUrl = "https://www.programme-tv.net/imgre/fit/~2~backoffice~program~d504ec779568d4ba.jpg/1200x630/crop-from/top/quality/80/cr/wqkgVGhlIE1vdmllIERC/les-brigades-du-tigre.jpg";
-                    } elseif ($film->titre == "HIERARCHY") {
+                    } elseif ($film->titre == "Hierarchy") {
                         $imageUrl = "https://koreasowls.fr/wp-content/uploads/2024/05/Hierarchy-1.webp";
                     } elseif ($film->titre == "Business Proposal") {
                         $imageUrl = "https://resizing.flixster.com/50HR4NgmUoW72E60_TpsXXagnxU=/fit-in/705x460/v2/https://resizing.flixster.com/-XZAfHZM39UwaGJIFWKAE8fS0ak=/v3/t/assets/p21402965_b_h8_ad.jpg";

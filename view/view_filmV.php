@@ -62,7 +62,7 @@ if (!$film) {
                             <?php
                                 if ($film->titre == "Les Brigades du Tigre") {
                                     $videoUrl = "../assets/video/brigade_du_tigre.mp4"; // Chemin vers la vidéo locale
-                                } elseif ($film->titre == "HIERARCHY") {
+                                } elseif ($film->titre == "Hierarchy") {
                                     $videoUrl = "../assets/video/hierarchy.mp4";
                                 } elseif ($film->titre == "Business Proposal") {
                                     $videoUrl = "../assets/video/business_proposal.mp4";
@@ -77,7 +77,7 @@ if (!$film) {
                                     <source src="<?php echo $videoUrl; ?>" type="video/mp4">
                                     Votre navigateur ne supporte pas la balise vidéo.
                                 </video>
-                            <?php elseif ($film->titre == "HIERARCHY"): ?>
+                            <?php elseif ($film->titre == "Hierarchy"): ?>
                                 <video class="card-img-top" width="560" height="315" controls>
                                     <source src="<?php echo $videoUrl; ?>" type="video/mp4">
                                     Votre navigateur ne supporte pas la balise vidéo.
