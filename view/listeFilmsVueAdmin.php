@@ -21,6 +21,8 @@ $films = $filmController->getFilms();
     
     <!-- Core theme CSS (includes Bootstrap)-->
     <link href="../css/styles.css" rel="stylesheet" />
+    <!-- JQuery (for AJAX) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
 <!-- Responsive navbar-->
@@ -46,7 +48,7 @@ $films = $filmController->getFilms();
 <div class="container">
     <div class="row">
         <!-- Blog entries-->
-        <div class="col-lg-8">
+        <div class="col-lg-8" id="film-list">
             
             <!-- Nested row for non-featured blog posts-->
             <div class="row">
@@ -103,12 +105,12 @@ $films = $filmController->getFilms();
 
         <!-- Side widgets-->
         <div class="col-lg-4">
-            <!-- Search widget-->
-            <div class="card mb-4">
+             <!-- Search widget-->
+             <div class="card mb-4">
                 <div class="card-header">Recherche de films</div>
                 <div class="card-body">
                     <div class="input-group">
-                        <input class="form-control" type="text" placeholder="Enter search term..." aria-label="Enter search term..." aria-describedby="button-search" />
+                        <input class="form-control" type="text" placeholder="Rechercher" aria-label="Enter search term..." aria-describedby="button-search" id="search-term"/>
                         <button class="btn btn-primary" id="button-search" type="button">Rechercher</button>
                     </div> 
                 </div>
@@ -148,7 +150,35 @@ $films = $filmController->getFilms();
     </div>
 
 </div>
+<script>
+$(document).ready(function(){
+    // Rechercher les films en tapant dans la barre de recherche
+    $('#search-term').on('input', function(){
+        var searchTerm = $(this).val();
+        $.ajax({
+            url: '../controller/FilmSearchController.php',
+            type: 'GET',
+            data: { term: searchTerm },
+            success: function(data) {
+                $('#film-list').html(data);
+            }
+        });
+    });
 
+    // Rechercher les films en cliquant sur le bouton Rechercher
+    $('#button-search').on('click', function(){
+        var searchTerm = $('#search-term').val();
+        $.ajax({
+            url: '../controller/FilmSearchController.php',
+            type: 'GET',
+            data: { term: searchTerm },
+            success: function(data) {
+                $('#film-list').html(data);
+            }
+        });
+    });
+});
+</script>
 
 </body>
 </html>
