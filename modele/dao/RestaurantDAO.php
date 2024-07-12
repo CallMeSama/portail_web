@@ -217,6 +217,84 @@ class RestaurantDAO {
             return false;
         }
     }
+
+    public function updateRestaurant($nomRestaurant, Restaurant $updatedRestaurant) {
+        if (file_exists($this->file)) {
+            libxml_use_internal_errors(true);
+            $xml = simplexml_load_file($this->file);
+
+            if ($xml === false) {
+                echo "Erreur lors du chargement du fichier XML :<br>";
+                foreach (libxml_get_errors() as $error) {
+                    echo "<br>", $error->message;
+                }
+                return false;
+            }
+
+            // Recherche du restaurant à mettre à jour par son nom
+            $restaurantToUpdate = null;
+            foreach ($xml->restaurant as $restaurant) {
+                if ((string) $restaurant->nom === $nomRestaurant) {
+                    $restaurantToUpdate = $restaurant;
+                    break;
+                }
+            }
+
+            if ($restaurantToUpdate !== null) {
+                // Mise à jour des informations du restaurant
+                $restaurantToUpdate->coordonnees = $updatedRestaurant->coordonnees;
+                $restaurantToUpdate->nom = $updatedRestaurant->nom;
+                $restaurantToUpdate->adresse = $updatedRestaurant->adresse;
+                $restaurantToUpdate->restaurateur = $updatedRestaurant->restaurateur;
+
+                // Mise à jour de la description du restaurant
+                $restaurantToUpdate->descriptionRestaurant->liste = $updatedRestaurant->descriptionRestaurant->liste;
+                $restaurantToUpdate->descriptionRestaurant->paragraphe = $updatedRestaurant->descriptionRestaurant->paragraphe;
+                $restaurantToUpdate->descriptionRestaurant->important = $updatedRestaurant->descriptionRestaurant->important;
+
+                // Mise à jour de l'image
+                $restaurantToUpdate->descriptionRestaurant->image['url'] = $updatedRestaurant->descriptionRestaurant->image->url;
+                $restaurantToUpdate->descriptionRestaurant->image['position'] = $updatedRestaurant->descriptionRestaurant->image->position;
+
+                // Mise à jour de la carte des plats
+                unset($restaurantToUpdate->carte->plat);
+                foreach ($updatedRestaurant->carte as $plat) {
+                    $platNode = $restaurantToUpdate->carte->addChild('plat');
+                    $platNode->addAttribute('numero', $plat->numero);
+                    $platNode->addChild('indication', $plat->indication);
+                    $platNode->addChild('prix', $plat->prix->valeur)->addAttribute('devise', $plat->prix->devise);
+                    $platNode->addChild('descriptionPlat')->addChild('paragraphe', $plat->descriptionPlat->paragraphe);
+                    $platNode->descriptionPlat->addChild('important', $plat->descriptionPlat->importantForme);
+                }
+
+                // Mise à jour des menus
+                unset($restaurantToUpdate->menus->menu);
+                foreach ($updatedRestaurant->menus as $menu) {
+                    $menuNode = $restaurantToUpdate->menus->addChild('menu');
+                    $menuNode->addChild('titre', $menu->titre);
+
+                    $descriptionMenu = $menuNode->addChild('descriptionMenu');
+                    foreach ($menu->plats as $platId => $description) {
+                        $platMenuNode = $descriptionMenu->addChild('platMenu', $description);
+                        $platMenuNode->addAttribute('plat', $platId);
+                    }
+
+                    $menuNode->addChild('prix', $menu->prix->valeur)->addAttribute('devise', $menu->prix->devise);
+                }
+
+                // Sauvegarde des modifications dans le fichier XML
+                $xml->asXML($this->file);
+
+                return true;
+            } else {
+                echo "Restaurant non trouvé.";
+                return false;
+            }
+        } else {
+            echo "Le fichier XML n'existe pas.";
+            return false;
+        }
+    }
 }
 
 // $restaurantsDao = new RestaurantDAO();
