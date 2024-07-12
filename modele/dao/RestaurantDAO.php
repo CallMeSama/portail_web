@@ -12,7 +12,7 @@ class RestaurantDAO {
     private $file;
 
     public function __construct() {
-        $this->file = 'restaurants.xml';
+        $this->file = __DIR__ . '/../../data/xml/donnéesRestaurants.xml';
     }
 
     public function getRestaurants() {
